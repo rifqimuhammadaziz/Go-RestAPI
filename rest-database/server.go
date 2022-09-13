@@ -1,13 +1,27 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"Go-RestAPI/rest-database/config"
+	"Go-RestAPI/rest-database/controller"
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
+)
+
+var (
+	db             *gorm.DB                  = config.SetupDatabaseConnection()
+	authController controller.AuthController = controller.NewAuthController()
+)
 
 func main() {
+	defer config.CloseDatabaseConnection(db)
+
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "it works",
-		})
-	})
+
+	authRoutes := r.Group("api/auth")
+	{
+		authRoutes.POST("/login", authController.Login)
+		authRoutes.POST("/register", authController.Register)
+	}
+
 	r.Run("localhost:9090")
 }
