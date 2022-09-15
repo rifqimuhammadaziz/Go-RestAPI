@@ -1,6 +1,7 @@
 package config
 
 import (
+	"Go-RestAPI/rest-database/entity"
 	"fmt"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
@@ -26,7 +27,7 @@ func SetupDatabaseConnection() *gorm.DB {
 		panic("Failed to create a connection to database")
 	}
 	// Fill model
-	//db.AutoMigrate()
+	db.AutoMigrate(&entity.Book{}, &entity.User{})
 
 	return db
 }

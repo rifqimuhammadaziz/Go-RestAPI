@@ -12,7 +12,7 @@ import (
 // AuthService is a contract about this service what can do
 type AuthService interface {
 	VerifyCredential(email string, password string) interface{}
-	CreateUser(user dto.UserCreateDTO) entity.User
+	CreateUser(user dto.RegisterDTO) entity.User
 	FindByEmail(email string) entity.User
 	IsDuplicateEmail(email string) bool
 }
@@ -40,7 +40,7 @@ func (service *authService) VerifyCredential(email string, password string) inte
 	return res
 }
 
-func (service *authService) CreateUser(user dto.UserCreateDTO) entity.User {
+func (service *authService) CreateUser(user dto.RegisterDTO) entity.User {
 	userToCreate := entity.User{}
 	err := smapping.FillStruct(&userToCreate, smapping.MapFields(&user))
 	if err != nil {
