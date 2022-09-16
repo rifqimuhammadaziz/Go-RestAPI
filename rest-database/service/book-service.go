@@ -11,7 +11,7 @@ import (
 
 type BookService interface {
 	Insert(b dto.BookCreateDTO) entity.Book
-	Update(b dto.BookCreateDTO) entity.Book
+	Update(b dto.BookUpdateDTO) entity.Book
 	Delete(b entity.Book)
 	All() []entity.Book
 	FindByID(bookID uint64) entity.Book
@@ -39,7 +39,7 @@ func (service *bookService) Insert(b dto.BookCreateDTO) entity.Book {
 	return res
 }
 
-func (service *bookService) Update(b dto.BookCreateDTO) entity.Book {
+func (service *bookService) Update(b dto.BookUpdateDTO) entity.Book {
 	book := entity.Book{}
 	err := smapping.FillStruct(&book, smapping.MapFields(&b))
 	if err != nil {
